@@ -1,21 +1,31 @@
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Id</th>
-			
-			<th>Titre</th>
-			<th>Nombre de pages</th>
-			<th colspan="3">Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr th:each="livre:${livreList}">
-			<td th:text="${livre.id}"></td>
-			
-			<td th:text="${livre.titre}"></td>
-			<td th:text="${livre.nbPages}"></td>
-			<td><a th:href="'/livre/' + ${livre.id}" class="btn btn-info">Afficher détail</a></td>
-			<td><a th:href="'/delete/livre/' + ${livre.id}" class="btn btn-danger">Supprimer</a></td>
-		</tr>
-	</tbody>
-</table> 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template" >
+	<body>
+		<div layout:fragment="content">
+			<table>
+			  <thead>
+			    <tr>
+			      <th>Id</th>
+			      <th>Image</th>
+			      <th>Titre</th>
+			      <th>Nombre de pages</th>
+			      <th colspan="3">Actions</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			      <tr th:each="livre:${livreList}">
+			        <td th:text="${livre.id}"></td>
+			        <td><img width="80" th:src="'/images/' + ${livre.image}"></td>
+			        <td th:text="${livre.titre}"></td>
+			        <td th:text="${livre.nbPages}"></td>
+			        <td><a th:href="'/livre/' + ${livre.id}" class="btn btn-info">Afficher détail</a></td>
+			        <td><a th:href="'/delete/livre/' + ${livre.id}" class="btn btn-danger">Supprimer</a></td>
+			      </tr>
+			  </tbody>
+			</table> 
+		
+		</div>
+	</body>
+</html>  
