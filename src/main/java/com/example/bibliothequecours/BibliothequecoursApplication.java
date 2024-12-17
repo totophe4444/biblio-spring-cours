@@ -35,5 +35,15 @@ public class BibliothequecoursApplication {
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("Impossible de créer l'utilisateur tophe");
 		}
+		try  {
+			hashPassword  =  Outil.hashMdpSha256("admin");
+			utilisateur  =  new  Utilisateur("admin",  hashPassword,  "arnacoeur@gmail.com",  "administrateur");
+			utilisateurRepository.save(utilisateur);
+		}  catch  (NoSuchAlgorithmException  e)  {
+			System.out.println("Impossible  de  créer  l'utilisateur  l'administrateur");
+		}
+		utilisateur.emprunterLivre(livre1);
+		utilisateur.emprunterLivre(livre2);
+		utilisateurRepository.save(utilisateur);
 	}
 }

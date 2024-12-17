@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public  class  UtilisateurController  {
-	
+
 	@Autowired
 	private UtilisateurServiceItf utilisateurService;
 
@@ -22,7 +22,7 @@ public  class  UtilisateurController  {
 	public  String  creerUtilisateur()  {
 		return  "creer-utilisateur";
 	}
-	
+
 	@RequestMapping("/creer-compte-validation")
 	public  String  creerUtilisateurValidation(String  login,  String  password,  String  mail)  {
 		System.out.println(login  +  ",  "  +  password  +  ",  "  +  mail);
@@ -41,23 +41,28 @@ public  class  UtilisateurController  {
 		return  "login";
 	}
 	@RequestMapping("/login-validation")
-    public String login(String login, final String password, Model model, HttpServletRequest request) {
-    	System.out.println("==== login-validation ====");
-    	System.out.println(login + " / " + password);
-    	String hashPassword = null;
+	public String login(String login, String password, Model model, HttpServletRequest request) {
+		System.out.println("==== login-validation ====");
+		System.out.println(login + " / " + password);
+		String hashPassword = null;
 		try {
 			hashPassword = Outil.hashMdpSha256(password);
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println("ERREUR - fonction hashMdpSha256");
 		}
-    	System.out.println("hashPassword=" + hashPassword);
-    	Utilisateur utilisateur = utilisateurService.lireUtilisateurParLogin(login);
-    	System.out.println("utilisateur:" + utilisateur);
-    	if(utilisateur.getPasswdHash().equals(hashPassword)) {
-    		System.out.println("Vous êtes connecté");
-    		request.getSession().setAttribute("utilisateur", utilisateur);
-    	}
-    	else System.out.println("Vous n'êtes pas connecté");
-    	return "accueil";
-    }
+		System.out.println("hashPassword=" + hashPassword);
+		Utilisateur utilisateur = utilisateurService.lireUtilisateurParLogin(login);
+		System.out.println("utilisateur:" + utilisateur);
+		if(utilisateur.getPasswdHash().equals(hashPassword)) {
+			System.out.println("Vous êtes connecté");
+			request.getSession().setAttribute("utilisateur", utilisateur);
+		}
+		else System.out.println("Vous n'êtes pas connecté");
+		return "accueil";
+	}
+	@GetMapping("/logout")
+	public  String  logout(HttpServletRequest  request)  {
+		request.getSession().removeAttribute("utilisateur");
+		return  "accueil";
+	}
 }

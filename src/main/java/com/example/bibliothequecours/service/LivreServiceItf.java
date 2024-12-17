@@ -7,4 +7,5 @@ import com.example.bibliothequecours.entity.Livre;
 
 public interface LivreServiceItf {
 	List<Livre> getAllLivre();
+	void  creerLivre(Livre  livre);
 }

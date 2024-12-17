@@ -18,5 +18,9 @@ public class LivreService implements LivreServiceItf{
 	public List<Livre> getAllLivre() {
 		return livreRepository.findAll();
 	}
+	@Override
+	public  void  creerLivre(Livre  livre)  {
+		livreRepository.save(livre);
+	}
 
 }

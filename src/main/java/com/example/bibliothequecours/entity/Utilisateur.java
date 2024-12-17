@@ -1,8 +1,11 @@
 package com.example.bibliothequecours.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Utilisateur {
@@ -13,16 +16,23 @@ public class Utilisateur {
 	private String passwdHash;
 	private String email;
 	private String role;
+	@ManyToMany
+	private  List<Livre>  emprunterLivreList;
+	
 	public Utilisateur() {}
 	public Utilisateur(String login, String passwdHash, String email, String role) {
 		this.login = login;
 		this.passwdHash = passwdHash;
 		this.email = email;
 		this.role = role;
+		emprunterLivreList = new ArrayList<Livre>();
 	}
 	@Override
 	public String toString() {
 		return "Utilisateur [login=" + login + ", id=" + id + ", passwdHash=" + passwdHash + ", email=" + email + ", role=" + role +"]";
+	}
+	public  void  emprunterLivre(Livre  livre)  {
+		emprunterLivreList.add(livre);
 	}
 	public String getLogin() {
 		return login;
@@ -51,5 +61,13 @@ public class Utilisateur {
 	public String getRole() {
 		return role;
 	}
-	
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public List<Livre> getEmprunterLivreList() {
+		return emprunterLivreList;
+	}
+	public void setEmprunterLivreList(List<Livre> emprunterLivreList) {
+		this.emprunterLivreList = emprunterLivreList;
+	}
 }

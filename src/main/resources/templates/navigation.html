@@ -11,8 +11,14 @@
 		<li>
 			<a  href="/creer-compte">Créer  compte</a>
 		</li>
-		<li>
+		<li  th:if="${session.utilisateur  !=  null  and  session.utilisateur.role  ==  'administrateur'}">
+			<a href="/creer-livre">Créer  livre</a>
+		</li>
+		<li  th:if="${session.utilisateur  ==  null}">
 			<a  href="/login">login</a>
+		</li>
+		<li  th:if="${session.utilisateur  !=  null}">
+			<a  href="logout">logout</a>
 		</li>
 	</ul>
 </div>
