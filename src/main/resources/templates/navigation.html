@@ -8,16 +8,22 @@
 		<li>
 			<a  href="/afficher-livres">Catalogue</a>
 		</li>
+		<li  th:if="${session.id  !=  null}">
+			<a  href="/afficher-panier">Panier</a>
+		</li>
+		<li  th:if="${session.id  !=  null}">
+			<a  href="/afficher-emprunt">Emprunt</a>
+		</li>
 		<li>
 			<a  href="/creer-compte">Créer  compte</a>
 		</li>
-		<li  th:if="${session.utilisateur  !=  null  and  session.utilisateur.role  ==  'administrateur'}">
-			<a href="/creer-livre">Créer  livre</a>
+		<li  th:if="${session.role  ==  'administrateur'}">
+			<a  href="/creer-livre">Créer  livre</a>
 		</li>
-		<li  th:if="${session.utilisateur  ==  null}">
+		<li  th:if="${session.id  ==  null}">
 			<a  href="/login">login</a>
 		</li>
-		<li  th:if="${session.utilisateur  !=  null}">
+		<li  th:if="${session.id  !=  null}">
 			<a  href="logout">logout</a>
 		</li>
 	</ul>

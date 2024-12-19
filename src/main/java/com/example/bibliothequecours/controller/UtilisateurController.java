@@ -1,11 +1,15 @@
 package com.example.bibliothequecours.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.bibliothequecours.entity.Livre;
 import com.example.bibliothequecours.entity.Utilisateur;
 import com.example.bibliothequecours.outil.Outil;
 import com.example.bibliothequecours.service.UtilisateurServiceItf;
@@ -55,14 +59,41 @@ public  class  UtilisateurController  {
 		System.out.println("utilisateur:" + utilisateur);
 		if(utilisateur.getPasswdHash().equals(hashPassword)) {
 			System.out.println("Vous êtes connecté");
-			request.getSession().setAttribute("utilisateur", utilisateur);
+			request.getSession().setAttribute("id",  utilisateur.getId());
+			request.getSession().setAttribute("login",  utilisateur.getLogin());
+			request.getSession().setAttribute("role",  utilisateur.getRole());
 		}
 		else System.out.println("Vous n'êtes pas connecté");
 		return "accueil";
 	}
 	@GetMapping("/logout")
 	public  String  logout(HttpServletRequest  request)  {
-		request.getSession().removeAttribute("utilisateur");
+		System.out.println("====  /logout  ====");
+		request.getSession().invalidate();
 		return  "accueil";
 	}
+	@RequestMapping("/valider-panier")
+	public  String  validerPanier(Model  model,  HttpServletRequest  request)  {
+		System.out.println("====  /valider-panier  ====");
+		List<Long>  livreEmprunterListId  =  (List<Long>)  request.getSession().getAttribute("livreEmprunterListId");
+		System.out.println("livreEmprunterListId="  +  livreEmprunterListId);
+		if(livreEmprunterListId  !=  null)  {
+			Long  idUtilisateur  =  (Long)  request.getSession().getAttribute("id");
+			utilisateurService.emprunterListLivreUtilisateur(livreEmprunterListId,  idUtilisateur);
+			request.getSession().removeAttribute("livreEmprunterListId");
+		}
+		else  System.out.println("Pas de ivre emprunté");
+		return  "redirect:/afficher-emprunt";
+	}
+	@RequestMapping("/afficher-emprunt")
+	public  String  afficherEmpreunt(Model  model,  HttpServletRequest  request)  {
+		System.out.println("====  /afficher-emprunt  ====");
+		Long  idUtilisateur  =  (Long)  request.getSession().getAttribute("id");
+		List<Livre>  livreList  =  utilisateurService.getEmpruntLivreList(idUtilisateur);
+		System.out.println("livreList="  +  livreList);
+		model.addAttribute("titre",  "Emprunt");
+		model.addAttribute("livreList",  livreList);
+		return  "emprunt";
+	}
+
 }
