@@ -19,6 +19,10 @@ public class Livre {
 	private String description;
 	@Transient
 	private String subDescription;
+	@ManyToOne
+	private Auteur auteur;
+	@ManyToOne
+	private Editeur editeur;
 	
 	public Livre() {}
 	public Livre(String titre, int nbExemplaire, int nbPages, String image, String description) {
@@ -90,6 +94,16 @@ public class Livre {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	   
+	public Auteur getAuteur() {
+		return auteur;
+	}
+	public void setAuteur(Auteur auteur) {
+		this.auteur = auteur;
+	}
+	public Editeur getEditeur() {
+		return editeur;
+	}
+	public void setEditeur(Editeur editeur) {
+		this.editeur = editeur;
+	}  
 }

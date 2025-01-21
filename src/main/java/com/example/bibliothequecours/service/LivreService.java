@@ -36,5 +36,14 @@ public class LivreService implements LivreServiceItf{
 		}
 		return livreEmprunterList;
     }
+	@Override
+	public void decrementerNbExemplaireLivre(Long id) {
+		livreRepository.decrementerNbExemplaireLivre(id);
+	}
+	@Override
+	public void incrementerNbExemplaireLivre(Long id) {
+		livreRepository.incrementerNbExemplaireLivre(id);
+	}
+
 
 }

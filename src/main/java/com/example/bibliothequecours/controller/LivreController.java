@@ -93,6 +93,7 @@ public class LivreController {
     	// si la liste ne contient pas déjà le livre
     	if(!livreEmprunterListId.contains(id)) {
     		livreEmprunterListId.add(id);
+    		livreService.decrementerNbExemplaireLivre(id);
     	}
     	request.getSession().setAttribute("livreEmprunterListId", livreEmprunterListId);
     	System.out.println("livreEmprunterListId=" + livreEmprunterListId);
@@ -111,5 +112,16 @@ public class LivreController {
 		model.addAttribute("titre", "Réservation livre");
 		return "panier";
 	}
+    @RequestMapping("/supprimer-panier/{id}")
+    public String supprimerLivrePanier(@PathVariable Long id, Model model, HttpServletRequest request) {
+    	System.out.println("==== /supprimer-panier ====");
+    	List<Long> livreEmprunterListId = (List<Long>) request.getSession().getAttribute("livreEmprunterListId");
+    	System.out.println("livreEmprunterListId=" + livreEmprunterListId);
+    	livreEmprunterListId.remove(id);
+    	livreService.incrementerNbExemplaireLivre(id);
+    	request.getSession().setAttribute("livreEmprunterListId", livreEmprunterListId);
+    	System.out.println("livreEmprunterListId=" + livreEmprunterListId);
+    	return "redirect:/afficher-panier";
+    }
 
 }

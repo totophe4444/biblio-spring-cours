@@ -72,28 +72,4 @@ public  class  UtilisateurController  {
 		request.getSession().invalidate();
 		return  "accueil";
 	}
-	@RequestMapping("/valider-panier")
-	public  String  validerPanier(Model  model,  HttpServletRequest  request)  {
-		System.out.println("====  /valider-panier  ====");
-		List<Long>  livreEmprunterListId  =  (List<Long>)  request.getSession().getAttribute("livreEmprunterListId");
-		System.out.println("livreEmprunterListId="  +  livreEmprunterListId);
-		if(livreEmprunterListId  !=  null)  {
-			Long  idUtilisateur  =  (Long)  request.getSession().getAttribute("id");
-			utilisateurService.emprunterListLivreUtilisateur(livreEmprunterListId,  idUtilisateur);
-			request.getSession().removeAttribute("livreEmprunterListId");
-		}
-		else  System.out.println("Pas de ivre emprunté");
-		return  "redirect:/afficher-emprunt";
-	}
-	@RequestMapping("/afficher-emprunt")
-	public  String  afficherEmpreunt(Model  model,  HttpServletRequest  request)  {
-		System.out.println("====  /afficher-emprunt  ====");
-		Long  idUtilisateur  =  (Long)  request.getSession().getAttribute("id");
-		List<Livre>  livreList  =  utilisateurService.getEmpruntLivreList(idUtilisateur);
-		System.out.println("livreList="  +  livreList);
-		model.addAttribute("titre",  "Emprunt");
-		model.addAttribute("livreList",  livreList);
-		return  "emprunt";
-	}
-
 }
