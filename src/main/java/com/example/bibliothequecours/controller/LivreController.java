@@ -18,10 +18,16 @@ import com.example.bibliothequecours.service.LivreServiceItf;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-
+/**
+* Controleur livre. Point d'entré des requêtes client.
+ * @author Tophe
+ */
 
 @Controller
 public class LivreController {
+	/**
+	 * injection du composant livreService
+	 */
 	@Autowired
 	private  LivreServiceItf  livreService;
 
@@ -30,12 +36,26 @@ public class LivreController {
 
 	@Value("${dir.images}")
 	private String imageDir;
-
+	/**
+	 * route /accueil
+	 * Appel la page statique d'accueil
+	 * 
+	 */
 	@RequestMapping("/accueil")
 	public  String  accueil()  {
 		System.out.println("==== /accueils ====");
 		return  "accueil";
 	}
+	/**
+	 * route /afficher-livres
+	 * Appel la page catalogue en lui fournissant la liste
+	 * des livres afin de les afficher
+	 * @param model
+	 * contient la liste des livres 
+	 * constituant le catalogue afin de les afficher
+	 * @return catalogue
+	 * appel la page catalogue pour afficher les livres
+	 */
 	@RequestMapping("/afficher-livres")
 	public String administrer(Model model) {
 		System.out.println("==== /afficher-livres ====");

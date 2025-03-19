@@ -30,6 +30,8 @@ public  class  UtilisateurController  {
 	@RequestMapping("/creer-compte-validation")
 	public  String  creerUtilisateurValidation(String  login,  String  password,  String  mail)  {
 		System.out.println(login  +  ",  "  +  password  +  ",  "  +  mail);
+		/* REFACTORING */
+		/*
 		String  hashPassword  =  null;
 		try  {
 			hashPassword  =  Outil.hashMdpSha256(password);
@@ -37,7 +39,9 @@ public  class  UtilisateurController  {
 			System.out.println("ERREUR  -  fonction  hashMdpSha256");
 		}
 		Utilisateur  utilisateur  =  new  Utilisateur(login,  hashPassword,  mail,  "abonne");
-		utilisateurService.creerUtilisateur(utilisateur);
+		*/
+		Utilisateur utilisateur = utilisateurService.creerUtilisateur(login, password, mail);
+		/* REFACTORING */
 		return  "login";
 	}
 	@RequestMapping("/login")
@@ -48,6 +52,7 @@ public  class  UtilisateurController  {
 	public String login(String login, String password, Model model, HttpServletRequest request) {
 		System.out.println("==== login-validation ====");
 		System.out.println(login + " / " + password);
+		/*
 		String hashPassword = null;
 		try {
 			hashPassword = Outil.hashMdpSha256(password);
@@ -57,7 +62,9 @@ public  class  UtilisateurController  {
 		System.out.println("hashPassword=" + hashPassword);
 		Utilisateur utilisateur = utilisateurService.lireUtilisateurParLogin(login);
 		System.out.println("utilisateur:" + utilisateur);
-		if(utilisateur.getPasswdHash().equals(hashPassword)) {
+		*/
+		Utilisateur utilisateur = utilisateurService.validerLoginUtilisateur(login, password);
+		if(utilisateur != null) {
 			System.out.println("Vous êtes connecté");
 			request.getSession().setAttribute("id",  utilisateur.getId());
 			request.getSession().setAttribute("login",  utilisateur.getLogin());

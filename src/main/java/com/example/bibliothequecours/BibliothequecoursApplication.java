@@ -17,6 +17,7 @@ import com.example.bibliothequecours.repository.EditeurRepository;
 import com.example.bibliothequecours.repository.EmpruntRepository;
 import com.example.bibliothequecours.repository.LivreRepository;
 import com.example.bibliothequecours.repository.UtilisateurRepository;
+import com.example.bibliothequecours.service.EmailServiceImpl;
 
 @SpringBootApplication
 public class BibliothequecoursApplication {
@@ -25,6 +26,7 @@ public class BibliothequecoursApplication {
 	private static EmpruntRepository empruntRepository = null;
 	private static AuteurRepository auteurRepository = null;
 	private static EditeurRepository editeurRepository = null;
+	private static EmailServiceImpl emailService = null;
 	public static void main(String[] args) {
 		ApplicationContext  ctx  = SpringApplication.run(BibliothequecoursApplication.class, args);
 		livreRepository  =  ctx.getBean(LivreRepository.class);
@@ -32,6 +34,7 @@ public class BibliothequecoursApplication {
 		empruntRepository = ctx.getBean(EmpruntRepository.class);
 		auteurRepository = ctx.getBean(AuteurRepository.class);
 		editeurRepository = ctx.getBean(EditeurRepository.class);
+		emailService = ctx.getBean(EmailServiceImpl.class);
 		initialiser();
 	}
 	public  static  void  initialiser()  {
@@ -69,5 +72,7 @@ public class BibliothequecoursApplication {
 		editeurRepository.save(editeur);
 		livre1.setEditeur(editeur);
 		livreRepository.save(livre1);
+		
+		emailService.sendSimpleMessage("fessardnet@gmail.com", "titre test", "texte test");
 	}
 }

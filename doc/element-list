@@ -1,0 +1,6 @@
+com.example.bibliothequecours
+com.example.bibliothequecours.controller
+com.example.bibliothequecours.entity
+com.example.bibliothequecours.outil
+com.example.bibliothequecours.repository
+com.example.bibliothequecours.service

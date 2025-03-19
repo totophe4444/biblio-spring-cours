@@ -38,7 +38,7 @@ public class Editeur {
 	public String toString() {
 		return "Editeur [id=" + id + ", nom=" + nom + ", lienDescription=" + lienDescription + "]";
 	}
-	
-	
-	
+
+
+
 }
