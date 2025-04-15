@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ public class EmpruntController {
 	private  LivreServiceItf  livreService;
 	
 	@RequestMapping("/valider-panier")
+	@PreAuthorize("hasRole('ROLE_ABONNE')")
 	public String validerPanier(Model model, HttpServletRequest request) {
 		System.out.println("==== /valider-panier ====");
 		List<Long> livreEmprunterListId = (List<Long>) request.getSession().getAttribute("livreEmprunterListId");
@@ -38,6 +40,7 @@ public class EmpruntController {
 		return "redirect:/afficher-emprunt";
 	}
 	@RequestMapping("/afficher-emprunt")
+	@PreAuthorize("hasRole('ROLE_ABONNE')")
     public String afficherEmprunt(Model model, HttpServletRequest request) {
 		System.out.println("==== /afficher-emprunt ====");
 		Long idUtilisateur = (Long) request.getSession().getAttribute("id");
@@ -48,6 +51,7 @@ public class EmpruntController {
 		return "emprunt";
 	}
 	@RequestMapping("/retourner-emprunt/{id}")
+	@PreAuthorize("hasRole('ROLE_ABONNE')")
     public String retournerEmprunt(@PathVariable Long id, Model model, HttpServletRequest request) {
 		System.out.println("==== /retourner-emprunt ====");
 		System.out.println("id=" + id);

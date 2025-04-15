@@ -18,12 +18,12 @@
 			  <tbody>
 			      <tr th:each="livre:${livreList}">
 			        <td th:text="${livre.id}"></td>
-			        <td><img width="80" th:src="'/images/' + ${livre.image}"></td>
+			        <td><img width="80" th:src="'images/' + ${livre.image}"></td>
 			        <td th:text="${livre.titre}"></td>
 			        <td th:text="${livre.nbExemplaire}"></td>
 			        <td th:text="${livre.nbPages}"></td>
-			        <td><a  th:href="'/afficher-livre/'  +  ${livre.id}"  class="btn  btn-info">Détail</a></td>
-					<td th:if="${session.role != null}"><a  th:href="'/reserver/'  +  ${livre.id}"  class="btn  btn-danger">Réserver</a></td>
+			        <td><a  th:href="'afficher-livre/'  +  ${livre.id}"  class="btn  btn-info">Détail</a></td>
+					<td th:if="${#authorization.expression('hasRole(''ABONNE'')')}"><a  th:href="'reserver/'  +  ${livre.id}"  class="btn  btn-danger">Réserver</a></td>
 			      </tr>
 			  </tbody>
 			</table> 

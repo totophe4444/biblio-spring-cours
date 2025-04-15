@@ -5,12 +5,12 @@
 	<body>
 		<div layout:fragment="content">
 		    <h3>Formulaire login</h3>
-		    <form action="/login-validation" method="post">
+		    <form th:action="login" method="post">
 		        <div>
 		            <label for="username">Nom utilisateur</label>
-		            <input type="text" id="username" name="login">
+		            <input type="text" id="username" name="username">
 		        </div>
-		        <div class="mb-3">
+		        <div>
 		            <label for="passwd">Mot de passe</label>
 		            <input type="password" id="passwd" name="password">
 		        </div>

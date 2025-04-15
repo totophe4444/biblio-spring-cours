@@ -5,6 +5,9 @@ import java.util.Date;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.bibliothequecours.entity.Auteur;
 import com.example.bibliothequecours.entity.Editeur;
@@ -27,6 +30,7 @@ public class BibliothequecoursApplication {
 	private static AuteurRepository auteurRepository = null;
 	private static EditeurRepository editeurRepository = null;
 	private static EmailServiceImpl emailService = null;
+	private static PasswordEncoder passwordEncoder;
 	public static void main(String[] args) {
 		ApplicationContext  ctx  = SpringApplication.run(BibliothequecoursApplication.class, args);
 		livreRepository  =  ctx.getBean(LivreRepository.class);
@@ -35,6 +39,7 @@ public class BibliothequecoursApplication {
 		auteurRepository = ctx.getBean(AuteurRepository.class);
 		editeurRepository = ctx.getBean(EditeurRepository.class);
 		emailService = ctx.getBean(EmailServiceImpl.class);
+		passwordEncoder = ctx.getBean(PasswordEncoder.class);
 		initialiser();
 	}
 	public  static  void  initialiser()  {
@@ -44,20 +49,12 @@ public class BibliothequecoursApplication {
 		livreRepository.save(livre2);
 		String hashPassword;
 		Utilisateur utilisateur = null;
-		try {
-			hashPassword = Outil.hashMdpSha256("tophe");
-			utilisateur = new Utilisateur("tophe", hashPassword, "toutapri@gmail.com", "abonne");
-			utilisateurRepository.save(utilisateur);
-		} catch (NoSuchAlgorithmException e) {
-			System.out.println("Impossible de créer l'utilisateur tophe");
-		}
-		try  {
-			hashPassword  =  Outil.hashMdpSha256("admin");
-			utilisateur  =  new  Utilisateur("admin",  hashPassword,  "arnacoeur@gmail.com",  "administrateur");
-			utilisateurRepository.save(utilisateur);
-		}  catch  (NoSuchAlgorithmException  e)  {
-			System.out.println("Impossible  de  créer  l'utilisateur  l'administrateur");
-		}
+		hashPassword = passwordEncoder.encode("tophe");
+		utilisateur = new Utilisateur("tophe", hashPassword, "toutapri@gmail.com", "ABONNE");
+		utilisateurRepository.save(utilisateur);
+		hashPassword = passwordEncoder.encode("admin");
+		utilisateur  =  new  Utilisateur("admin",  hashPassword,  "arnacoeur@gmail.com",  "ADMIN");
+		utilisateurRepository.save(utilisateur);
 		Emprunt emprunt = new Emprunt(livre1, new Date()); 
 		empruntRepository.save(emprunt);
 		utilisateur.emprunterLivre(emprunt);
@@ -73,6 +70,11 @@ public class BibliothequecoursApplication {
 		livre1.setEditeur(editeur);
 		livreRepository.save(livre1);
 		
-		emailService.sendSimpleMessage("fessardnet@gmail.com", "titre test", "texte test");
+		//emailService.sendSimpleMessage("fessardnet@gmail.com", "titre test", "texte test");
+	}
+	
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

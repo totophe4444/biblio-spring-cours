@@ -22,12 +22,12 @@
 			        <td th:text="${livre.titre}"></td>
 			        <td th:text="${livre.nbExemplaire}"></td>
 			        <td th:text="${livre.nbPages}"></td>
-			        <td><a th:href="'/afficher-livre/' + ${livre.id}">Détail</a></td>
-			        <td><a th:href="'/supprimer-panier/' + ${livre.id}">Supprimer du panier</a></td>
+			        <td><a th:href="'afficher-livre/' + ${livre.id}">Détail</a></td>
+			        <td><a th:href="'supprimer-panier/' + ${livre.id}">Supprimer du panier</a></td>
 			      </tr>
 			  </tbody>
 			</table> 
-			<a href="/valider-panier">Valider le panier</a>	        
+			<a href="valider-panier">Valider le panier</a>	        
 		</div>
 	</body>
 </html>  

@@ -11,6 +11,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>bibliothequecours</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>bibliothequecours</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -70,7 +71,20 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>				
+		</dependency>		
+		<dependency>
+	      <groupId>org.springframework.boot</groupId>
+	      <artifactId>spring-boot-starter-security</artifactId>
+	    </dependency>
+	    <dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>			
 	</dependencies>
 
 	<build>

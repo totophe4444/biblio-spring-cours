@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -30,21 +31,22 @@ public  class UtilisateurService implements UtilisateurServiceItf {
 	@Autowired
 	private EmpruntRepository empruntRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public Utilisateur creerUtilisateur(String  login,  String  password,  String  mail) {
 		String  hashPassword  =  null;
-		try  {
-			hashPassword  =  Outil.hashMdpSha256(password);
-		}  catch  (NoSuchAlgorithmException  e)  {
-			System.out.println("ERREUR  -  fonction  hashMdpSha256");
-		}
-		Utilisateur  utilisateur  =  new  Utilisateur(login,  hashPassword,  mail,  "abonne");
+		hashPassword = passwordEncoder.encode(password);
+		Utilisateur  utilisateur  =  new  Utilisateur(login,  hashPassword,  mail,  "ABONNE");
 		utilisateurRepository.save(utilisateur);	
+		System.out.println("utilisateur=" + utilisateur);
 		return utilisateur;
 	}
 	
 	@Override
 	public Utilisateur validerLoginUtilisateur(String login, String passwd) { /* REFACTORING */
+		System.out.println("UtilisateurService - validerLoginUtilisateur");
 		String hashPassword = null;
 		try {
 			hashPassword = Outil.hashMdpSha256(passwd);
@@ -59,12 +61,12 @@ public  class UtilisateurService implements UtilisateurServiceItf {
 		}
 		return null;
 	}
-	/*
+	
 	@Override
 	public Utilisateur lireUtilisateurParLogin(String login) {
 		return utilisateurRepository.findByLogin(login);
 	}
-	*/
+	
 	@Override
 	public Utilisateur lireUtilisateurParId(Long id) {
 		Utilisateur utilisateur = utilisateurRepository.findById(id).get();

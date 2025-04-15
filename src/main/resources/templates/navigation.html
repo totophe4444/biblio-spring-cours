@@ -3,29 +3,31 @@
 <div  th:fragment="barre-navigation">
 	<ul>
 		<li>
-			<a  href="/accueil">Accueil</a>
+			<a th:href="@{/accueil}">Accueil</a>
 		</li>
 		<li>
-			<a  href="/afficher-livres">Catalogue</a>
+			<a th:href="@{/afficher-livres}">Catalogue</a>
 		</li>
-		<li  th:if="${session.id  !=  null}">
-			<a  href="/afficher-panier">Panier</a>
+		<li th:if="${#authorization.expression('hasRole(''ABONNE'')')}" >
+			<a th:href="@{/afficher-panier}">Panier</a>
 		</li>
-		<li  th:if="${session.id  !=  null}">
-			<a  href="/afficher-emprunt">Emprunt</a>
+		<li th:if="${#authorization.expression('hasRole(''ABONNE'')')}" >
+			<a th:href="@{/afficher-emprunt}">Emprunt</a>
 		</li>
 		<li>
-			<a  href="/creer-compte">Créer  compte</a>
+			<a th:href="@{/creer-compte}">Créer compte</a>
 		</li>
-		<li  th:if="${session.role  ==  'administrateur'}">
-			<a  href="/creer-livre">Créer  livre</a>
+		<li  th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+			<a th:href="@{/creer-livre}">Créer livre</a>
 		</li>
-		<li  th:if="${session.id  ==  null}">
-			<a  href="/login">login</a>
+		<li sec:authorize="isAnonymous()" >
+			<a th:href="@{/login}">login</a>
 		</li>
-		<li  th:if="${session.id  !=  null}">
-			<a  href="logout">logout</a>
+		<li sec:authorize="isAuthenticated()">
+			<!-- form method="post" th:action="@{/logout}">
+				<input type="submit" value="logout"/> 
+			</form -->
+			<a th:href="@{/logout}">Logout</a>
 		</li>
 	</ul>
 </div>
-</html>

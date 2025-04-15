@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,8 +35,8 @@ public class LivreController {
 	@Autowired
 	private ServletContext context;   
 
-	@Value("${dir.images}")
-	private String imageDir;
+	//@Value("${dir.images}")
+	private String imageDir = "WEB-INF/classes/static/images/";
 	/**
 	 * route /accueil
 	 * Appel la page statique d'accueil
@@ -65,29 +66,27 @@ public class LivreController {
 		return "catalogue";
 	}
 	@RequestMapping("/creer-livre")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public  String  creerLivre(Model  model)  {
 		System.out.println("==== /creer-livre ====");
 		model.addAttribute("titre",  "Créer  livre");
 		return  "creer-livre";
 	}
 	@RequestMapping("/creer-livre-validation")
-	public String creerValidationLivre(String titre, int nb, int nbPages, String descr, MultipartFile image) {
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public String creerValidationLivre(String titre, int nb, int nbPages, String descr, MultipartFile image) throws Exception {
 		System.out.println("==== /creer-livre-validation ====");
 		System.out.println("/creer-livre-validation titre=" + titre + " nb=" + nb + " nbPages=" + nbPages + " descr=" + descr);
 		System.out.println("image=" + image);
 		if(!image.isEmpty()) {
 			String couverture = image.getOriginalFilename();
 			System.out.println("couverture=" + couverture);
-
-			String absolutePath = context.getRealPath("resources/images");
+			String absolutePath = context.getRealPath(imageDir) + couverture;
 			System.out.println("creerValidationLivre t- absolutePath=" + absolutePath);
-			System.out.println(context.getRealPath("/"));
-			String pathFile = imageDir + couverture;
-			System.out.println("pathFile=" + pathFile);
 			try {
-				image.transferTo(new File(pathFile));
+				image.transferTo(new File(absolutePath));
 			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
+				throw new Exception("Impossible d'enregistrer l'image sur le serveur.");
 			}
 			livreService.creerLivre(new Livre(titre, nb, nbPages, couverture, descr));
 		}
@@ -104,6 +103,7 @@ public class LivreController {
 		return  "detail";
 	}
     @RequestMapping("/reserver/{id}")
+    @PreAuthorize("hasRole('ROLE_ABONNE')")
     public String emprunterLivre(@PathVariable Long id, Model model, HttpServletRequest request) {
     	System.out.println("==== /reserver/" + id + " ====");
     	List<Long> livreEmprunterListId = (List<Long>) request.getSession().getAttribute("livreEmprunterListId");
@@ -120,6 +120,7 @@ public class LivreController {
     	return "redirect:/afficher-panier";
     }
     @RequestMapping("/afficher-panier")
+    @PreAuthorize("hasRole('ROLE_ABONNE')")
 	public String afficherPanier(Model model, HttpServletRequest request) {
 		System.out.println("==== /afficher-panier ====");
 		List<Long> livreEmprunterListId = (List<Long>) request.getSession().getAttribute("livreEmprunterListId");
@@ -133,6 +134,7 @@ public class LivreController {
 		return "panier";
 	}
     @RequestMapping("/supprimer-panier/{id}")
+    @PreAuthorize("hasRole('ROLE_ABONNE')")
     public String supprimerLivrePanier(@PathVariable Long id, Model model, HttpServletRequest request) {
     	System.out.println("==== /supprimer-panier ====");
     	List<Long> livreEmprunterListId = (List<Long>) request.getSession().getAttribute("livreEmprunterListId");

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template" >
+	<body>
+	<div layout:fragment="content">
+		<h3>Message d'erreur</h3>
+		<p th:text="${message}"></p>
+		</div>
+	</body>
+</html>  

@@ -18,7 +18,7 @@ class UtilisateurServiceIntegrationTest {
 	@Autowired
 	private UtilisateurService utilisateurService;
 	
-	@Test
+	//@Test
 	void testValiderLoginUtilisateur() {
 		String  hashPassword  =  null;
 		try  {

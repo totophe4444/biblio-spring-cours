@@ -4,7 +4,8 @@
       layout:decorate="template" >
 	<body>
 		<div layout:fragment="content">
-	    	<form action="/creer-compte-validation" method="POST">
+	    	<form action="creer-compte-validation" method="POST">
+	    		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 	            <div>
 	              <label for="username">Nom utilisateur</label>
 	              <input type="text" id="username" name="login">
@@ -27,7 +28,7 @@
 	            <div>
 	                <input type="checkbox" name="perso" id="flexCheckIndeterminate">
 	                <label for="flexCheckIndeterminate">
-	                  J'accepte que mes données soient conservées pour avoir accés aux services de la bibliothéques 
+	                  J'accepte que mes données soient conservées pour avoir accés aux services de la bibliothéque
 	                </label>
 	            </div>
 	            <button type="submit">Submit</button>
